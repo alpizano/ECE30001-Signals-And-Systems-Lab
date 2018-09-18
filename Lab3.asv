@@ -150,7 +150,7 @@ ylim([-3 5])
 grid on
 
 % part 7 g(t)
-t5 = 0:0.01:9;
+t5 = -2:0.01:9;
 f3 = 3*(t5+2).*heaviside(t5+2)-6*(t5).*heaviside(t5)+3*(t5-2).*heaviside(t5-2);
 plot(t5, f3)
 title('Sketch of g(t)')
