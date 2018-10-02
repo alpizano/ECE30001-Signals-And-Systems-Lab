@@ -1,0 +1,2370 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>lab4_me</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-10-02"><meta name="DC.source" content="lab4_me.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">clc;
+clear;
+
+<span class="comment">%problem 2; sys_rep</span>
+
+G = 2;
+b = 0.5;
+
+x = -2:1:10;
+x1(1:length(x)) = 1.2;
+x2(1:length(x)) = -1.2;
+y = G*x+b;
+
+y1 = G*x1+b;
+y2 = G*x2+b;
+
+<span class="comment">%{
+</span><span class="comment">figure;
+</span><span class="comment">title('First plot');
+</span><span class="comment">xlabel('t (in seconds)');
+</span><span class="comment">ylabel('y(t)');
+</span><span class="comment">plot(x,y);
+</span><span class="comment">grid on
+</span><span class="comment">%}
+</span>
+figure;
+plot(y1);
+title(<span class="string">'x1(t)'</span>);
+xlabel(<span class="string">'t (in seconds)'</span>);
+ylabel(<span class="string">'y1(t)'</span>);
+ylim([-5 5])
+grid <span class="string">off</span>
+
+figure;
+plot(y2);
+title(<span class="string">'x2(t)'</span>);
+xlabel(<span class="string">'t (in seconds)'</span>);
+ylabel(<span class="string">'y2(t)'</span>);
+ylim([-5 5])
+grid <span class="string">off</span>
+
+a1 = 1;
+a2 = 1;
+
+<span class="comment">%problem 3</span>
+x3 = a1*x1 + a2*x2;
+
+figure;
+plot(x3,<span class="string">'--'</span>);
+title(<span class="string">'x3(t)'</span>);
+xlabel(<span class="string">'t (in seconds)'</span>);
+ylabel(<span class="string">'y(t)'</span>);
+ylim([-5 5])
+grid <span class="string">off</span>
+
+<span class="comment">%problem 6</span>
+t = -1:0.01:3;
+
+sinusoid_x1 = 2*cos(2*pi*t - (pi/4));
+sinusoid_x2 = 1.5*cos(3*pi*t - (pi/4));
+
+sinusoid_y1 = G*sinusoid_x1+b;
+sinusoid_y2 = G*sinusoid_x2+b;
+
+figure;
+subplot(2,1,1)
+plot(t,sinusoid_x1)
+title(<span class="string">'x1(t) = 2*cos(2*pi*t-(pi/4))'</span>);
+ylabel(<span class="string">'y1(t)'</span>);
+
+subplot(2,1,2)
+plot(t,sinusoid_x2)
+title(<span class="string">'x2(t) = 1.5*cos(3*pi*t-(pi/4))'</span>);
+ylabel(<span class="string">'y2(t)'</span>);
+
+<span class="comment">%problem 7 (how many subplots 2, or 3?</span>
+a1_2 = 3;
+a2_2 = 4;
+
+x3_2 = a1_2*sinusoid_x1  + a2_2*sinusoid_x2;
+
+y3_2 = a1*sinusoid_y1  + a2*sinusoid_y2;
+
+figure;
+
+subplot(3,1,1)
+plot(x3_2);
+title(<span class="string">'yn(t) = 3x1(t) +4x2(t)'</span>);
+xlabel(<span class="string">'t (in seconds)'</span>);
+ylabel(<span class="string">'x3(t)'</span>);
+ylim([-15 15])
+
+subplot(3,1,2)
+plot(y3_2);
+title(<span class="string">'yn(t) = 3y1(t) +4y2(t)'</span>);
+xlabel(<span class="string">'t (in seconds)'</span>);
+ylabel(<span class="string">'y3(t)'</span>);
+ylim([-15 15])
+grid <span class="string">off</span>
+
+<span class="comment">%problem 9</span>
+<span class="comment">%{
+</span><span class="comment">t = -7:0.01:7;
+</span><span class="comment">x_unit = heaviside(t+1) - heaviside(t-2);
+</span><span class="comment">y_t = x_unit(2*t);
+</span><span class="comment">
+</span><span class="comment">figure;
+</span><span class="comment">
+</span><span class="comment">plot(t,x_unit)
+</span><span class="comment">ylim([-5 5])
+</span><span class="comment">%}
+</span>
+<span class="comment">%Part 9</span>
+t=-7:.01:7;
+x=heaviside(t+1)- heaviside(t-2);
+y=(heaviside(2*t+1)- heaviside(2*t-2));
+figure;
+subplot (2,1,1), plot(t,x), title(<span class="string">'x(t)'</span>), xlabel(<span class="string">'t'</span>), ylabel(<span class="string">'x(t)'</span>), axis([-2 3 0 2]);
+subplot(2,1,2), plot(t,y), title(<span class="string">'y(t)'</span>), xlabel(<span class="string">'t'</span>), ylabel(<span class="string">'x(2*t)'</span>),axis([-2 3 0 2]);
+
+<span class="comment">%part 10</span>
+xd=heaviside(t-2+1)- heaviside(t-2-2);
+yd=heaviside(2*t-2+1)- heaviside(2*t-2-2);
+figure;
+subplot (3,1,1), plot(t,xd), title(<span class="string">'xd'</span>), xlabel(<span class="string">'t'</span>), ylabel(<span class="string">'x(t-2)'</span>), axis([-1 4.5 0 2]);
+subplot(3,1,2), plot(t,yd), title(<span class="string">'yd'</span>), xlabel(<span class="string">'t'</span>), ylabel(<span class="string">'x(2t-2)'</span>),axis([-1 4.5 0 2]);
+
+<span class="comment">%Part 11</span>
+y_del=(heaviside(t-2+1)- heaviside(t-2-2));
+figure;
+subplot (3,1,3), plot(t,xd), title(<span class="string">'Ydel'</span>), xlabel(<span class="string">'t'</span>), ylabel(<span class="string">'Y(t-2)'</span>), axis([-1 4.5 0 2]);
+close <span class="string">all</span>
+
+<span class="comment">%part 12</span>
+t=-4:.01:6;
+<span class="keyword">for</span> i=1:length(t)
+<span class="keyword">if</span>  t(i)&lt;=-2
+X(i)=0;
+
+<span class="keyword">elseif</span>  t(i)&lt;=0
+
+X(i)=1.5*t(i)+3;
+
+<span class="keyword">elseif</span>  t(i)&lt;=4
+X(i)=3-.75*t(i);
+
+<span class="keyword">else</span>
+X(i)=0;
+
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+figure;
+plot(t,X)
+title (<span class="string">'piecewise'</span>)
+xlabel(<span class="string">'t'</span>)
+ylabel(<span class="string">'x(t)'</span>)
+
+
+<span class="comment">% Part 13</span>
+t=-4:.01:6;
+T=2.*t
+<span class="keyword">for</span> i=1:length(T)
+<span class="keyword">if</span>  T(i)&lt;=-2
+Y(i)=0;
+
+<span class="keyword">elseif</span>  T(i)&lt;=0
+
+Y(i)=(1.5*T(i)+3);
+
+<span class="keyword">elseif</span>  T(i)&lt;=4
+Y(i)=3-.75*T(i);
+
+<span class="keyword">else</span>
+Y(i)=0;
+
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+hold <span class="string">on</span>
+figure;
+plot(t,Y)
+title(<span class="string">'compressed piecewise'</span>)
+xlabel(<span class="string">'t'</span>)
+ylabel(<span class="string">'x(2t)'</span>)
+
+
+<span class="comment">%problem 14</span>
+t_dec=t-1;
+<span class="keyword">for</span> i=1:length(t)
+<span class="keyword">if</span>  t_dec(i)&lt;=-2
+Xd(i)=0;
+
+<span class="keyword">elseif</span>  t_dec(i)&lt;=0
+
+Xd(i)=1.5*t_dec(i)+3;
+
+<span class="keyword">elseif</span>  t_dec(i)&lt;=4
+Xd(i)=3-.75*t_dec(i);
+
+<span class="keyword">else</span>
+Xd(i)=0;
+
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+plot(t,Xd)
+title (<span class="string">'Xd'</span>)
+xlabel(<span class="string">'t'</span>)
+ylabel(<span class="string">'x(t-1)'</span>)
+
+
+
+<span class="comment">%Prob 14b</span>
+T_compressed=(2*t_dec)
+<span class="keyword">for</span> i=1:length(t)
+<span class="keyword">if</span>  T_compressed(i)&lt;=-2
+Yd(i)=0;
+
+<span class="keyword">elseif</span>  T_compressed(i)&lt;=0
+
+Yd(i)=1.5*T_compressed(i)+3;
+
+<span class="keyword">elseif</span>  T_compressed(i)&lt;=4
+Yd(i)=3-.75*T_compressed(i);
+
+<span class="keyword">else</span>
+Yd(i)=0;
+
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+plot(t,Yd)
+title (<span class="string">'Xd compressed'</span>)
+xlabel(<span class="string">'t'</span>)
+ylabel(<span class="string">'x(2*(t-1))'</span>)
+
+
+<span class="comment">%Prob 14c</span>
+T_dec=T-1
+<span class="keyword">for</span> i=1:length(t)
+<span class="keyword">if</span>  T_dec(i)&lt;=-2
+Ydc(i)=0;
+
+<span class="keyword">elseif</span>  T_dec(i)&lt;=0
+
+Ydc(i)=1.5*T_dec(i)+3;
+
+<span class="keyword">elseif</span>  T_dec(i)&lt;=4
+Ydc(i)=3-.75*T_dec(i);
+
+<span class="keyword">else</span>
+Ydc(i)=0;
+
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+plot(t,Ydc)
+title (<span class="string">'ydc compressed and delayed once again'</span>)
+xlabel(<span class="string">'t'</span>)
+ylabel(<span class="string">'x(2*(t-1))'</span>)
+
+
+<span class="comment">%Problem 15</span>
+figure;
+subplot (3,1,1), plot(t,Xd),title (<span class="string">'Xd'</span>) ,xlabel(<span class="string">'t'</span>), ylabel(<span class="string">'x(t-1)'</span>),grid <span class="string">on</span>;
+subplot (3,1,2), plot(t,Yd)
+title (<span class="string">'Yd'</span>)
+xlabel(<span class="string">'t'</span>)
+ylabel(<span class="string">'x(2*(t-1))'</span>)
+grid <span class="string">on</span>;
+subplot(3,1,3), plot(t,Ydc)
+title (<span class="string">'Ydc'</span>)
+xlabel(<span class="string">'t'</span>)
+ylabel(<span class="string">'x(2*(t-1)-1)'</span>);
+grid <span class="string">on</span>
+
+
+<span class="keyword">function</span> [y]=sys_resp(x)
+y=2*x+.5;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+T =
+
+  Columns 1 through 7
+
+   -8.0000   -7.9800   -7.9600   -7.9400   -7.9200   -7.9000   -7.8800
+
+  Columns 8 through 14
+
+   -7.8600   -7.8400   -7.8200   -7.8000   -7.7800   -7.7600   -7.7400
+
+  Columns 15 through 21
+
+   -7.7200   -7.7000   -7.6800   -7.6600   -7.6400   -7.6200   -7.6000
+
+  Columns 22 through 28
+
+   -7.5800   -7.5600   -7.5400   -7.5200   -7.5000   -7.4800   -7.4600
+
+  Columns 29 through 35
+
+   -7.4400   -7.4200   -7.4000   -7.3800   -7.3600   -7.3400   -7.3200
+
+  Columns 36 through 42
+
+   -7.3000   -7.2800   -7.2600   -7.2400   -7.2200   -7.2000   -7.1800
+
+  Columns 43 through 49
+
+   -7.1600   -7.1400   -7.1200   -7.1000   -7.0800   -7.0600   -7.0400
+
+  Columns 50 through 56
+
+   -7.0200   -7.0000   -6.9800   -6.9600   -6.9400   -6.9200   -6.9000
+
+  Columns 57 through 63
+
+   -6.8800   -6.8600   -6.8400   -6.8200   -6.8000   -6.7800   -6.7600
+
+  Columns 64 through 70
+
+   -6.7400   -6.7200   -6.7000   -6.6800   -6.6600   -6.6400   -6.6200
+
+  Columns 71 through 77
+
+   -6.6000   -6.5800   -6.5600   -6.5400   -6.5200   -6.5000   -6.4800
+
+  Columns 78 through 84
+
+   -6.4600   -6.4400   -6.4200   -6.4000   -6.3800   -6.3600   -6.3400
+
+  Columns 85 through 91
+
+   -6.3200   -6.3000   -6.2800   -6.2600   -6.2400   -6.2200   -6.2000
+
+  Columns 92 through 98
+
+   -6.1800   -6.1600   -6.1400   -6.1200   -6.1000   -6.0800   -6.0600
+
+  Columns 99 through 105
+
+   -6.0400   -6.0200   -6.0000   -5.9800   -5.9600   -5.9400   -5.9200
+
+  Columns 106 through 112
+
+   -5.9000   -5.8800   -5.8600   -5.8400   -5.8200   -5.8000   -5.7800
+
+  Columns 113 through 119
+
+   -5.7600   -5.7400   -5.7200   -5.7000   -5.6800   -5.6600   -5.6400
+
+  Columns 120 through 126
+
+   -5.6200   -5.6000   -5.5800   -5.5600   -5.5400   -5.5200   -5.5000
+
+  Columns 127 through 133
+
+   -5.4800   -5.4600   -5.4400   -5.4200   -5.4000   -5.3800   -5.3600
+
+  Columns 134 through 140
+
+   -5.3400   -5.3200   -5.3000   -5.2800   -5.2600   -5.2400   -5.2200
+
+  Columns 141 through 147
+
+   -5.2000   -5.1800   -5.1600   -5.1400   -5.1200   -5.1000   -5.0800
+
+  Columns 148 through 154
+
+   -5.0600   -5.0400   -5.0200   -5.0000   -4.9800   -4.9600   -4.9400
+
+  Columns 155 through 161
+
+   -4.9200   -4.9000   -4.8800   -4.8600   -4.8400   -4.8200   -4.8000
+
+  Columns 162 through 168
+
+   -4.7800   -4.7600   -4.7400   -4.7200   -4.7000   -4.6800   -4.6600
+
+  Columns 169 through 175
+
+   -4.6400   -4.6200   -4.6000   -4.5800   -4.5600   -4.5400   -4.5200
+
+  Columns 176 through 182
+
+   -4.5000   -4.4800   -4.4600   -4.4400   -4.4200   -4.4000   -4.3800
+
+  Columns 183 through 189
+
+   -4.3600   -4.3400   -4.3200   -4.3000   -4.2800   -4.2600   -4.2400
+
+  Columns 190 through 196
+
+   -4.2200   -4.2000   -4.1800   -4.1600   -4.1400   -4.1200   -4.1000
+
+  Columns 197 through 203
+
+   -4.0800   -4.0600   -4.0400   -4.0200   -4.0000   -3.9800   -3.9600
+
+  Columns 204 through 210
+
+   -3.9400   -3.9200   -3.9000   -3.8800   -3.8600   -3.8400   -3.8200
+
+  Columns 211 through 217
+
+   -3.8000   -3.7800   -3.7600   -3.7400   -3.7200   -3.7000   -3.6800
+
+  Columns 218 through 224
+
+   -3.6600   -3.6400   -3.6200   -3.6000   -3.5800   -3.5600   -3.5400
+
+  Columns 225 through 231
+
+   -3.5200   -3.5000   -3.4800   -3.4600   -3.4400   -3.4200   -3.4000
+
+  Columns 232 through 238
+
+   -3.3800   -3.3600   -3.3400   -3.3200   -3.3000   -3.2800   -3.2600
+
+  Columns 239 through 245
+
+   -3.2400   -3.2200   -3.2000   -3.1800   -3.1600   -3.1400   -3.1200
+
+  Columns 246 through 252
+
+   -3.1000   -3.0800   -3.0600   -3.0400   -3.0200   -3.0000   -2.9800
+
+  Columns 253 through 259
+
+   -2.9600   -2.9400   -2.9200   -2.9000   -2.8800   -2.8600   -2.8400
+
+  Columns 260 through 266
+
+   -2.8200   -2.8000   -2.7800   -2.7600   -2.7400   -2.7200   -2.7000
+
+  Columns 267 through 273
+
+   -2.6800   -2.6600   -2.6400   -2.6200   -2.6000   -2.5800   -2.5600
+
+  Columns 274 through 280
+
+   -2.5400   -2.5200   -2.5000   -2.4800   -2.4600   -2.4400   -2.4200
+
+  Columns 281 through 287
+
+   -2.4000   -2.3800   -2.3600   -2.3400   -2.3200   -2.3000   -2.2800
+
+  Columns 288 through 294
+
+   -2.2600   -2.2400   -2.2200   -2.2000   -2.1800   -2.1600   -2.1400
+
+  Columns 295 through 301
+
+   -2.1200   -2.1000   -2.0800   -2.0600   -2.0400   -2.0200   -2.0000
+
+  Columns 302 through 308
+
+   -1.9800   -1.9600   -1.9400   -1.9200   -1.9000   -1.8800   -1.8600
+
+  Columns 309 through 315
+
+   -1.8400   -1.8200   -1.8000   -1.7800   -1.7600   -1.7400   -1.7200
+
+  Columns 316 through 322
+
+   -1.7000   -1.6800   -1.6600   -1.6400   -1.6200   -1.6000   -1.5800
+
+  Columns 323 through 329
+
+   -1.5600   -1.5400   -1.5200   -1.5000   -1.4800   -1.4600   -1.4400
+
+  Columns 330 through 336
+
+   -1.4200   -1.4000   -1.3800   -1.3600   -1.3400   -1.3200   -1.3000
+
+  Columns 337 through 343
+
+   -1.2800   -1.2600   -1.2400   -1.2200   -1.2000   -1.1800   -1.1600
+
+  Columns 344 through 350
+
+   -1.1400   -1.1200   -1.1000   -1.0800   -1.0600   -1.0400   -1.0200
+
+  Columns 351 through 357
+
+   -1.0000   -0.9800   -0.9600   -0.9400   -0.9200   -0.9000   -0.8800
+
+  Columns 358 through 364
+
+   -0.8600   -0.8400   -0.8200   -0.8000   -0.7800   -0.7600   -0.7400
+
+  Columns 365 through 371
+
+   -0.7200   -0.7000   -0.6800   -0.6600   -0.6400   -0.6200   -0.6000
+
+  Columns 372 through 378
+
+   -0.5800   -0.5600   -0.5400   -0.5200   -0.5000   -0.4800   -0.4600
+
+  Columns 379 through 385
+
+   -0.4400   -0.4200   -0.4000   -0.3800   -0.3600   -0.3400   -0.3200
+
+  Columns 386 through 392
+
+   -0.3000   -0.2800   -0.2600   -0.2400   -0.2200   -0.2000   -0.1800
+
+  Columns 393 through 399
+
+   -0.1600   -0.1400   -0.1200   -0.1000   -0.0800   -0.0600   -0.0400
+
+  Columns 400 through 406
+
+   -0.0200         0    0.0200    0.0400    0.0600    0.0800    0.1000
+
+  Columns 407 through 413
+
+    0.1200    0.1400    0.1600    0.1800    0.2000    0.2200    0.2400
+
+  Columns 414 through 420
+
+    0.2600    0.2800    0.3000    0.3200    0.3400    0.3600    0.3800
+
+  Columns 421 through 427
+
+    0.4000    0.4200    0.4400    0.4600    0.4800    0.5000    0.5200
+
+  Columns 428 through 434
+
+    0.5400    0.5600    0.5800    0.6000    0.6200    0.6400    0.6600
+
+  Columns 435 through 441
+
+    0.6800    0.7000    0.7200    0.7400    0.7600    0.7800    0.8000
+
+  Columns 442 through 448
+
+    0.8200    0.8400    0.8600    0.8800    0.9000    0.9200    0.9400
+
+  Columns 449 through 455
+
+    0.9600    0.9800    1.0000    1.0200    1.0400    1.0600    1.0800
+
+  Columns 456 through 462
+
+    1.1000    1.1200    1.1400    1.1600    1.1800    1.2000    1.2200
+
+  Columns 463 through 469
+
+    1.2400    1.2600    1.2800    1.3000    1.3200    1.3400    1.3600
+
+  Columns 470 through 476
+
+    1.3800    1.4000    1.4200    1.4400    1.4600    1.4800    1.5000
+
+  Columns 477 through 483
+
+    1.5200    1.5400    1.5600    1.5800    1.6000    1.6200    1.6400
+
+  Columns 484 through 490
+
+    1.6600    1.6800    1.7000    1.7200    1.7400    1.7600    1.7800
+
+  Columns 491 through 497
+
+    1.8000    1.8200    1.8400    1.8600    1.8800    1.9000    1.9200
+
+  Columns 498 through 504
+
+    1.9400    1.9600    1.9800    2.0000    2.0200    2.0400    2.0600
+
+  Columns 505 through 511
+
+    2.0800    2.1000    2.1200    2.1400    2.1600    2.1800    2.2000
+
+  Columns 512 through 518
+
+    2.2200    2.2400    2.2600    2.2800    2.3000    2.3200    2.3400
+
+  Columns 519 through 525
+
+    2.3600    2.3800    2.4000    2.4200    2.4400    2.4600    2.4800
+
+  Columns 526 through 532
+
+    2.5000    2.5200    2.5400    2.5600    2.5800    2.6000    2.6200
+
+  Columns 533 through 539
+
+    2.6400    2.6600    2.6800    2.7000    2.7200    2.7400    2.7600
+
+  Columns 540 through 546
+
+    2.7800    2.8000    2.8200    2.8400    2.8600    2.8800    2.9000
+
+  Columns 547 through 553
+
+    2.9200    2.9400    2.9600    2.9800    3.0000    3.0200    3.0400
+
+  Columns 554 through 560
+
+    3.0600    3.0800    3.1000    3.1200    3.1400    3.1600    3.1800
+
+  Columns 561 through 567
+
+    3.2000    3.2200    3.2400    3.2600    3.2800    3.3000    3.3200
+
+  Columns 568 through 574
+
+    3.3400    3.3600    3.3800    3.4000    3.4200    3.4400    3.4600
+
+  Columns 575 through 581
+
+    3.4800    3.5000    3.5200    3.5400    3.5600    3.5800    3.6000
+
+  Columns 582 through 588
+
+    3.6200    3.6400    3.6600    3.6800    3.7000    3.7200    3.7400
+
+  Columns 589 through 595
+
+    3.7600    3.7800    3.8000    3.8200    3.8400    3.8600    3.8800
+
+  Columns 596 through 602
+
+    3.9000    3.9200    3.9400    3.9600    3.9800    4.0000    4.0200
+
+  Columns 603 through 609
+
+    4.0400    4.0600    4.0800    4.1000    4.1200    4.1400    4.1600
+
+  Columns 610 through 616
+
+    4.1800    4.2000    4.2200    4.2400    4.2600    4.2800    4.3000
+
+  Columns 617 through 623
+
+    4.3200    4.3400    4.3600    4.3800    4.4000    4.4200    4.4400
+
+  Columns 624 through 630
+
+    4.4600    4.4800    4.5000    4.5200    4.5400    4.5600    4.5800
+
+  Columns 631 through 637
+
+    4.6000    4.6200    4.6400    4.6600    4.6800    4.7000    4.7200
+
+  Columns 638 through 644
+
+    4.7400    4.7600    4.7800    4.8000    4.8200    4.8400    4.8600
+
+  Columns 645 through 651
+
+    4.8800    4.9000    4.9200    4.9400    4.9600    4.9800    5.0000
+
+  Columns 652 through 658
+
+    5.0200    5.0400    5.0600    5.0800    5.1000    5.1200    5.1400
+
+  Columns 659 through 665
+
+    5.1600    5.1800    5.2000    5.2200    5.2400    5.2600    5.2800
+
+  Columns 666 through 672
+
+    5.3000    5.3200    5.3400    5.3600    5.3800    5.4000    5.4200
+
+  Columns 673 through 679
+
+    5.4400    5.4600    5.4800    5.5000    5.5200    5.5400    5.5600
+
+  Columns 680 through 686
+
+    5.5800    5.6000    5.6200    5.6400    5.6600    5.6800    5.7000
+
+  Columns 687 through 693
+
+    5.7200    5.7400    5.7600    5.7800    5.8000    5.8200    5.8400
+
+  Columns 694 through 700
+
+    5.8600    5.8800    5.9000    5.9200    5.9400    5.9600    5.9800
+
+  Columns 701 through 707
+
+    6.0000    6.0200    6.0400    6.0600    6.0800    6.1000    6.1200
+
+  Columns 708 through 714
+
+    6.1400    6.1600    6.1800    6.2000    6.2200    6.2400    6.2600
+
+  Columns 715 through 721
+
+    6.2800    6.3000    6.3200    6.3400    6.3600    6.3800    6.4000
+
+  Columns 722 through 728
+
+    6.4200    6.4400    6.4600    6.4800    6.5000    6.5200    6.5400
+
+  Columns 729 through 735
+
+    6.5600    6.5800    6.6000    6.6200    6.6400    6.6600    6.6800
+
+  Columns 736 through 742
+
+    6.7000    6.7200    6.7400    6.7600    6.7800    6.8000    6.8200
+
+  Columns 743 through 749
+
+    6.8400    6.8600    6.8800    6.9000    6.9200    6.9400    6.9600
+
+  Columns 750 through 756
+
+    6.9800    7.0000    7.0200    7.0400    7.0600    7.0800    7.1000
+
+  Columns 757 through 763
+
+    7.1200    7.1400    7.1600    7.1800    7.2000    7.2200    7.2400
+
+  Columns 764 through 770
+
+    7.2600    7.2800    7.3000    7.3200    7.3400    7.3600    7.3800
+
+  Columns 771 through 777
+
+    7.4000    7.4200    7.4400    7.4600    7.4800    7.5000    7.5200
+
+  Columns 778 through 784
+
+    7.5400    7.5600    7.5800    7.6000    7.6200    7.6400    7.6600
+
+  Columns 785 through 791
+
+    7.6800    7.7000    7.7200    7.7400    7.7600    7.7800    7.8000
+
+  Columns 792 through 798
+
+    7.8200    7.8400    7.8600    7.8800    7.9000    7.9200    7.9400
+
+  Columns 799 through 805
+
+    7.9600    7.9800    8.0000    8.0200    8.0400    8.0600    8.0800
+
+  Columns 806 through 812
+
+    8.1000    8.1200    8.1400    8.1600    8.1800    8.2000    8.2200
+
+  Columns 813 through 819
+
+    8.2400    8.2600    8.2800    8.3000    8.3200    8.3400    8.3600
+
+  Columns 820 through 826
+
+    8.3800    8.4000    8.4200    8.4400    8.4600    8.4800    8.5000
+
+  Columns 827 through 833
+
+    8.5200    8.5400    8.5600    8.5800    8.6000    8.6200    8.6400
+
+  Columns 834 through 840
+
+    8.6600    8.6800    8.7000    8.7200    8.7400    8.7600    8.7800
+
+  Columns 841 through 847
+
+    8.8000    8.8200    8.8400    8.8600    8.8800    8.9000    8.9200
+
+  Columns 848 through 854
+
+    8.9400    8.9600    8.9800    9.0000    9.0200    9.0400    9.0600
+
+  Columns 855 through 861
+
+    9.0800    9.1000    9.1200    9.1400    9.1600    9.1800    9.2000
+
+  Columns 862 through 868
+
+    9.2200    9.2400    9.2600    9.2800    9.3000    9.3200    9.3400
+
+  Columns 869 through 875
+
+    9.3600    9.3800    9.4000    9.4200    9.4400    9.4600    9.4800
+
+  Columns 876 through 882
+
+    9.5000    9.5200    9.5400    9.5600    9.5800    9.6000    9.6200
+
+  Columns 883 through 889
+
+    9.6400    9.6600    9.6800    9.7000    9.7200    9.7400    9.7600
+
+  Columns 890 through 896
+
+    9.7800    9.8000    9.8200    9.8400    9.8600    9.8800    9.9000
+
+  Columns 897 through 903
+
+    9.9200    9.9400    9.9600    9.9800   10.0000   10.0200   10.0400
+
+  Columns 904 through 910
+
+   10.0600   10.0800   10.1000   10.1200   10.1400   10.1600   10.1800
+
+  Columns 911 through 917
+
+   10.2000   10.2200   10.2400   10.2600   10.2800   10.3000   10.3200
+
+  Columns 918 through 924
+
+   10.3400   10.3600   10.3800   10.4000   10.4200   10.4400   10.4600
+
+  Columns 925 through 931
+
+   10.4800   10.5000   10.5200   10.5400   10.5600   10.5800   10.6000
+
+  Columns 932 through 938
+
+   10.6200   10.6400   10.6600   10.6800   10.7000   10.7200   10.7400
+
+  Columns 939 through 945
+
+   10.7600   10.7800   10.8000   10.8200   10.8400   10.8600   10.8800
+
+  Columns 946 through 952
+
+   10.9000   10.9200   10.9400   10.9600   10.9800   11.0000   11.0200
+
+  Columns 953 through 959
+
+   11.0400   11.0600   11.0800   11.1000   11.1200   11.1400   11.1600
+
+  Columns 960 through 966
+
+   11.1800   11.2000   11.2200   11.2400   11.2600   11.2800   11.3000
+
+  Columns 967 through 973
+
+   11.3200   11.3400   11.3600   11.3800   11.4000   11.4200   11.4400
+
+  Columns 974 through 980
+
+   11.4600   11.4800   11.5000   11.5200   11.5400   11.5600   11.5800
+
+  Columns 981 through 987
+
+   11.6000   11.6200   11.6400   11.6600   11.6800   11.7000   11.7200
+
+  Columns 988 through 994
+
+   11.7400   11.7600   11.7800   11.8000   11.8200   11.8400   11.8600
+
+  Columns 995 through 1001
+
+   11.8800   11.9000   11.9200   11.9400   11.9600   11.9800   12.0000
+
+
+T_compressed =
+
+  Columns 1 through 7
+
+  -10.0000   -9.9800   -9.9600   -9.9400   -9.9200   -9.9000   -9.8800
+
+  Columns 8 through 14
+
+   -9.8600   -9.8400   -9.8200   -9.8000   -9.7800   -9.7600   -9.7400
+
+  Columns 15 through 21
+
+   -9.7200   -9.7000   -9.6800   -9.6600   -9.6400   -9.6200   -9.6000
+
+  Columns 22 through 28
+
+   -9.5800   -9.5600   -9.5400   -9.5200   -9.5000   -9.4800   -9.4600
+
+  Columns 29 through 35
+
+   -9.4400   -9.4200   -9.4000   -9.3800   -9.3600   -9.3400   -9.3200
+
+  Columns 36 through 42
+
+   -9.3000   -9.2800   -9.2600   -9.2400   -9.2200   -9.2000   -9.1800
+
+  Columns 43 through 49
+
+   -9.1600   -9.1400   -9.1200   -9.1000   -9.0800   -9.0600   -9.0400
+
+  Columns 50 through 56
+
+   -9.0200   -9.0000   -8.9800   -8.9600   -8.9400   -8.9200   -8.9000
+
+  Columns 57 through 63
+
+   -8.8800   -8.8600   -8.8400   -8.8200   -8.8000   -8.7800   -8.7600
+
+  Columns 64 through 70
+
+   -8.7400   -8.7200   -8.7000   -8.6800   -8.6600   -8.6400   -8.6200
+
+  Columns 71 through 77
+
+   -8.6000   -8.5800   -8.5600   -8.5400   -8.5200   -8.5000   -8.4800
+
+  Columns 78 through 84
+
+   -8.4600   -8.4400   -8.4200   -8.4000   -8.3800   -8.3600   -8.3400
+
+  Columns 85 through 91
+
+   -8.3200   -8.3000   -8.2800   -8.2600   -8.2400   -8.2200   -8.2000
+
+  Columns 92 through 98
+
+   -8.1800   -8.1600   -8.1400   -8.1200   -8.1000   -8.0800   -8.0600
+
+  Columns 99 through 105
+
+   -8.0400   -8.0200   -8.0000   -7.9800   -7.9600   -7.9400   -7.9200
+
+  Columns 106 through 112
+
+   -7.9000   -7.8800   -7.8600   -7.8400   -7.8200   -7.8000   -7.7800
+
+  Columns 113 through 119
+
+   -7.7600   -7.7400   -7.7200   -7.7000   -7.6800   -7.6600   -7.6400
+
+  Columns 120 through 126
+
+   -7.6200   -7.6000   -7.5800   -7.5600   -7.5400   -7.5200   -7.5000
+
+  Columns 127 through 133
+
+   -7.4800   -7.4600   -7.4400   -7.4200   -7.4000   -7.3800   -7.3600
+
+  Columns 134 through 140
+
+   -7.3400   -7.3200   -7.3000   -7.2800   -7.2600   -7.2400   -7.2200
+
+  Columns 141 through 147
+
+   -7.2000   -7.1800   -7.1600   -7.1400   -7.1200   -7.1000   -7.0800
+
+  Columns 148 through 154
+
+   -7.0600   -7.0400   -7.0200   -7.0000   -6.9800   -6.9600   -6.9400
+
+  Columns 155 through 161
+
+   -6.9200   -6.9000   -6.8800   -6.8600   -6.8400   -6.8200   -6.8000
+
+  Columns 162 through 168
+
+   -6.7800   -6.7600   -6.7400   -6.7200   -6.7000   -6.6800   -6.6600
+
+  Columns 169 through 175
+
+   -6.6400   -6.6200   -6.6000   -6.5800   -6.5600   -6.5400   -6.5200
+
+  Columns 176 through 182
+
+   -6.5000   -6.4800   -6.4600   -6.4400   -6.4200   -6.4000   -6.3800
+
+  Columns 183 through 189
+
+   -6.3600   -6.3400   -6.3200   -6.3000   -6.2800   -6.2600   -6.2400
+
+  Columns 190 through 196
+
+   -6.2200   -6.2000   -6.1800   -6.1600   -6.1400   -6.1200   -6.1000
+
+  Columns 197 through 203
+
+   -6.0800   -6.0600   -6.0400   -6.0200   -6.0000   -5.9800   -5.9600
+
+  Columns 204 through 210
+
+   -5.9400   -5.9200   -5.9000   -5.8800   -5.8600   -5.8400   -5.8200
+
+  Columns 211 through 217
+
+   -5.8000   -5.7800   -5.7600   -5.7400   -5.7200   -5.7000   -5.6800
+
+  Columns 218 through 224
+
+   -5.6600   -5.6400   -5.6200   -5.6000   -5.5800   -5.5600   -5.5400
+
+  Columns 225 through 231
+
+   -5.5200   -5.5000   -5.4800   -5.4600   -5.4400   -5.4200   -5.4000
+
+  Columns 232 through 238
+
+   -5.3800   -5.3600   -5.3400   -5.3200   -5.3000   -5.2800   -5.2600
+
+  Columns 239 through 245
+
+   -5.2400   -5.2200   -5.2000   -5.1800   -5.1600   -5.1400   -5.1200
+
+  Columns 246 through 252
+
+   -5.1000   -5.0800   -5.0600   -5.0400   -5.0200   -5.0000   -4.9800
+
+  Columns 253 through 259
+
+   -4.9600   -4.9400   -4.9200   -4.9000   -4.8800   -4.8600   -4.8400
+
+  Columns 260 through 266
+
+   -4.8200   -4.8000   -4.7800   -4.7600   -4.7400   -4.7200   -4.7000
+
+  Columns 267 through 273
+
+   -4.6800   -4.6600   -4.6400   -4.6200   -4.6000   -4.5800   -4.5600
+
+  Columns 274 through 280
+
+   -4.5400   -4.5200   -4.5000   -4.4800   -4.4600   -4.4400   -4.4200
+
+  Columns 281 through 287
+
+   -4.4000   -4.3800   -4.3600   -4.3400   -4.3200   -4.3000   -4.2800
+
+  Columns 288 through 294
+
+   -4.2600   -4.2400   -4.2200   -4.2000   -4.1800   -4.1600   -4.1400
+
+  Columns 295 through 301
+
+   -4.1200   -4.1000   -4.0800   -4.0600   -4.0400   -4.0200   -4.0000
+
+  Columns 302 through 308
+
+   -3.9800   -3.9600   -3.9400   -3.9200   -3.9000   -3.8800   -3.8600
+
+  Columns 309 through 315
+
+   -3.8400   -3.8200   -3.8000   -3.7800   -3.7600   -3.7400   -3.7200
+
+  Columns 316 through 322
+
+   -3.7000   -3.6800   -3.6600   -3.6400   -3.6200   -3.6000   -3.5800
+
+  Columns 323 through 329
+
+   -3.5600   -3.5400   -3.5200   -3.5000   -3.4800   -3.4600   -3.4400
+
+  Columns 330 through 336
+
+   -3.4200   -3.4000   -3.3800   -3.3600   -3.3400   -3.3200   -3.3000
+
+  Columns 337 through 343
+
+   -3.2800   -3.2600   -3.2400   -3.2200   -3.2000   -3.1800   -3.1600
+
+  Columns 344 through 350
+
+   -3.1400   -3.1200   -3.1000   -3.0800   -3.0600   -3.0400   -3.0200
+
+  Columns 351 through 357
+
+   -3.0000   -2.9800   -2.9600   -2.9400   -2.9200   -2.9000   -2.8800
+
+  Columns 358 through 364
+
+   -2.8600   -2.8400   -2.8200   -2.8000   -2.7800   -2.7600   -2.7400
+
+  Columns 365 through 371
+
+   -2.7200   -2.7000   -2.6800   -2.6600   -2.6400   -2.6200   -2.6000
+
+  Columns 372 through 378
+
+   -2.5800   -2.5600   -2.5400   -2.5200   -2.5000   -2.4800   -2.4600
+
+  Columns 379 through 385
+
+   -2.4400   -2.4200   -2.4000   -2.3800   -2.3600   -2.3400   -2.3200
+
+  Columns 386 through 392
+
+   -2.3000   -2.2800   -2.2600   -2.2400   -2.2200   -2.2000   -2.1800
+
+  Columns 393 through 399
+
+   -2.1600   -2.1400   -2.1200   -2.1000   -2.0800   -2.0600   -2.0400
+
+  Columns 400 through 406
+
+   -2.0200   -2.0000   -1.9800   -1.9600   -1.9400   -1.9200   -1.9000
+
+  Columns 407 through 413
+
+   -1.8800   -1.8600   -1.8400   -1.8200   -1.8000   -1.7800   -1.7600
+
+  Columns 414 through 420
+
+   -1.7400   -1.7200   -1.7000   -1.6800   -1.6600   -1.6400   -1.6200
+
+  Columns 421 through 427
+
+   -1.6000   -1.5800   -1.5600   -1.5400   -1.5200   -1.5000   -1.4800
+
+  Columns 428 through 434
+
+   -1.4600   -1.4400   -1.4200   -1.4000   -1.3800   -1.3600   -1.3400
+
+  Columns 435 through 441
+
+   -1.3200   -1.3000   -1.2800   -1.2600   -1.2400   -1.2200   -1.2000
+
+  Columns 442 through 448
+
+   -1.1800   -1.1600   -1.1400   -1.1200   -1.1000   -1.0800   -1.0600
+
+  Columns 449 through 455
+
+   -1.0400   -1.0200   -1.0000   -0.9800   -0.9600   -0.9400   -0.9200
+
+  Columns 456 through 462
+
+   -0.9000   -0.8800   -0.8600   -0.8400   -0.8200   -0.8000   -0.7800
+
+  Columns 463 through 469
+
+   -0.7600   -0.7400   -0.7200   -0.7000   -0.6800   -0.6600   -0.6400
+
+  Columns 470 through 476
+
+   -0.6200   -0.6000   -0.5800   -0.5600   -0.5400   -0.5200   -0.5000
+
+  Columns 477 through 483
+
+   -0.4800   -0.4600   -0.4400   -0.4200   -0.4000   -0.3800   -0.3600
+
+  Columns 484 through 490
+
+   -0.3400   -0.3200   -0.3000   -0.2800   -0.2600   -0.2400   -0.2200
+
+  Columns 491 through 497
+
+   -0.2000   -0.1800   -0.1600   -0.1400   -0.1200   -0.1000   -0.0800
+
+  Columns 498 through 504
+
+   -0.0600   -0.0400   -0.0200         0    0.0200    0.0400    0.0600
+
+  Columns 505 through 511
+
+    0.0800    0.1000    0.1200    0.1400    0.1600    0.1800    0.2000
+
+  Columns 512 through 518
+
+    0.2200    0.2400    0.2600    0.2800    0.3000    0.3200    0.3400
+
+  Columns 519 through 525
+
+    0.3600    0.3800    0.4000    0.4200    0.4400    0.4600    0.4800
+
+  Columns 526 through 532
+
+    0.5000    0.5200    0.5400    0.5600    0.5800    0.6000    0.6200
+
+  Columns 533 through 539
+
+    0.6400    0.6600    0.6800    0.7000    0.7200    0.7400    0.7600
+
+  Columns 540 through 546
+
+    0.7800    0.8000    0.8200    0.8400    0.8600    0.8800    0.9000
+
+  Columns 547 through 553
+
+    0.9200    0.9400    0.9600    0.9800    1.0000    1.0200    1.0400
+
+  Columns 554 through 560
+
+    1.0600    1.0800    1.1000    1.1200    1.1400    1.1600    1.1800
+
+  Columns 561 through 567
+
+    1.2000    1.2200    1.2400    1.2600    1.2800    1.3000    1.3200
+
+  Columns 568 through 574
+
+    1.3400    1.3600    1.3800    1.4000    1.4200    1.4400    1.4600
+
+  Columns 575 through 581
+
+    1.4800    1.5000    1.5200    1.5400    1.5600    1.5800    1.6000
+
+  Columns 582 through 588
+
+    1.6200    1.6400    1.6600    1.6800    1.7000    1.7200    1.7400
+
+  Columns 589 through 595
+
+    1.7600    1.7800    1.8000    1.8200    1.8400    1.8600    1.8800
+
+  Columns 596 through 602
+
+    1.9000    1.9200    1.9400    1.9600    1.9800    2.0000    2.0200
+
+  Columns 603 through 609
+
+    2.0400    2.0600    2.0800    2.1000    2.1200    2.1400    2.1600
+
+  Columns 610 through 616
+
+    2.1800    2.2000    2.2200    2.2400    2.2600    2.2800    2.3000
+
+  Columns 617 through 623
+
+    2.3200    2.3400    2.3600    2.3800    2.4000    2.4200    2.4400
+
+  Columns 624 through 630
+
+    2.4600    2.4800    2.5000    2.5200    2.5400    2.5600    2.5800
+
+  Columns 631 through 637
+
+    2.6000    2.6200    2.6400    2.6600    2.6800    2.7000    2.7200
+
+  Columns 638 through 644
+
+    2.7400    2.7600    2.7800    2.8000    2.8200    2.8400    2.8600
+
+  Columns 645 through 651
+
+    2.8800    2.9000    2.9200    2.9400    2.9600    2.9800    3.0000
+
+  Columns 652 through 658
+
+    3.0200    3.0400    3.0600    3.0800    3.1000    3.1200    3.1400
+
+  Columns 659 through 665
+
+    3.1600    3.1800    3.2000    3.2200    3.2400    3.2600    3.2800
+
+  Columns 666 through 672
+
+    3.3000    3.3200    3.3400    3.3600    3.3800    3.4000    3.4200
+
+  Columns 673 through 679
+
+    3.4400    3.4600    3.4800    3.5000    3.5200    3.5400    3.5600
+
+  Columns 680 through 686
+
+    3.5800    3.6000    3.6200    3.6400    3.6600    3.6800    3.7000
+
+  Columns 687 through 693
+
+    3.7200    3.7400    3.7600    3.7800    3.8000    3.8200    3.8400
+
+  Columns 694 through 700
+
+    3.8600    3.8800    3.9000    3.9200    3.9400    3.9600    3.9800
+
+  Columns 701 through 707
+
+    4.0000    4.0200    4.0400    4.0600    4.0800    4.1000    4.1200
+
+  Columns 708 through 714
+
+    4.1400    4.1600    4.1800    4.2000    4.2200    4.2400    4.2600
+
+  Columns 715 through 721
+
+    4.2800    4.3000    4.3200    4.3400    4.3600    4.3800    4.4000
+
+  Columns 722 through 728
+
+    4.4200    4.4400    4.4600    4.4800    4.5000    4.5200    4.5400
+
+  Columns 729 through 735
+
+    4.5600    4.5800    4.6000    4.6200    4.6400    4.6600    4.6800
+
+  Columns 736 through 742
+
+    4.7000    4.7200    4.7400    4.7600    4.7800    4.8000    4.8200
+
+  Columns 743 through 749
+
+    4.8400    4.8600    4.8800    4.9000    4.9200    4.9400    4.9600
+
+  Columns 750 through 756
+
+    4.9800    5.0000    5.0200    5.0400    5.0600    5.0800    5.1000
+
+  Columns 757 through 763
+
+    5.1200    5.1400    5.1600    5.1800    5.2000    5.2200    5.2400
+
+  Columns 764 through 770
+
+    5.2600    5.2800    5.3000    5.3200    5.3400    5.3600    5.3800
+
+  Columns 771 through 777
+
+    5.4000    5.4200    5.4400    5.4600    5.4800    5.5000    5.5200
+
+  Columns 778 through 784
+
+    5.5400    5.5600    5.5800    5.6000    5.6200    5.6400    5.6600
+
+  Columns 785 through 791
+
+    5.6800    5.7000    5.7200    5.7400    5.7600    5.7800    5.8000
+
+  Columns 792 through 798
+
+    5.8200    5.8400    5.8600    5.8800    5.9000    5.9200    5.9400
+
+  Columns 799 through 805
+
+    5.9600    5.9800    6.0000    6.0200    6.0400    6.0600    6.0800
+
+  Columns 806 through 812
+
+    6.1000    6.1200    6.1400    6.1600    6.1800    6.2000    6.2200
+
+  Columns 813 through 819
+
+    6.2400    6.2600    6.2800    6.3000    6.3200    6.3400    6.3600
+
+  Columns 820 through 826
+
+    6.3800    6.4000    6.4200    6.4400    6.4600    6.4800    6.5000
+
+  Columns 827 through 833
+
+    6.5200    6.5400    6.5600    6.5800    6.6000    6.6200    6.6400
+
+  Columns 834 through 840
+
+    6.6600    6.6800    6.7000    6.7200    6.7400    6.7600    6.7800
+
+  Columns 841 through 847
+
+    6.8000    6.8200    6.8400    6.8600    6.8800    6.9000    6.9200
+
+  Columns 848 through 854
+
+    6.9400    6.9600    6.9800    7.0000    7.0200    7.0400    7.0600
+
+  Columns 855 through 861
+
+    7.0800    7.1000    7.1200    7.1400    7.1600    7.1800    7.2000
+
+  Columns 862 through 868
+
+    7.2200    7.2400    7.2600    7.2800    7.3000    7.3200    7.3400
+
+  Columns 869 through 875
+
+    7.3600    7.3800    7.4000    7.4200    7.4400    7.4600    7.4800
+
+  Columns 876 through 882
+
+    7.5000    7.5200    7.5400    7.5600    7.5800    7.6000    7.6200
+
+  Columns 883 through 889
+
+    7.6400    7.6600    7.6800    7.7000    7.7200    7.7400    7.7600
+
+  Columns 890 through 896
+
+    7.7800    7.8000    7.8200    7.8400    7.8600    7.8800    7.9000
+
+  Columns 897 through 903
+
+    7.9200    7.9400    7.9600    7.9800    8.0000    8.0200    8.0400
+
+  Columns 904 through 910
+
+    8.0600    8.0800    8.1000    8.1200    8.1400    8.1600    8.1800
+
+  Columns 911 through 917
+
+    8.2000    8.2200    8.2400    8.2600    8.2800    8.3000    8.3200
+
+  Columns 918 through 924
+
+    8.3400    8.3600    8.3800    8.4000    8.4200    8.4400    8.4600
+
+  Columns 925 through 931
+
+    8.4800    8.5000    8.5200    8.5400    8.5600    8.5800    8.6000
+
+  Columns 932 through 938
+
+    8.6200    8.6400    8.6600    8.6800    8.7000    8.7200    8.7400
+
+  Columns 939 through 945
+
+    8.7600    8.7800    8.8000    8.8200    8.8400    8.8600    8.8800
+
+  Columns 946 through 952
+
+    8.9000    8.9200    8.9400    8.9600    8.9800    9.0000    9.0200
+
+  Columns 953 through 959
+
+    9.0400    9.0600    9.0800    9.1000    9.1200    9.1400    9.1600
+
+  Columns 960 through 966
+
+    9.1800    9.2000    9.2200    9.2400    9.2600    9.2800    9.3000
+
+  Columns 967 through 973
+
+    9.3200    9.3400    9.3600    9.3800    9.4000    9.4200    9.4400
+
+  Columns 974 through 980
+
+    9.4600    9.4800    9.5000    9.5200    9.5400    9.5600    9.5800
+
+  Columns 981 through 987
+
+    9.6000    9.6200    9.6400    9.6600    9.6800    9.7000    9.7200
+
+  Columns 988 through 994
+
+    9.7400    9.7600    9.7800    9.8000    9.8200    9.8400    9.8600
+
+  Columns 995 through 1001
+
+    9.8800    9.9000    9.9200    9.9400    9.9600    9.9800   10.0000
+
+
+T_dec =
+
+  Columns 1 through 7
+
+   -9.0000   -8.9800   -8.9600   -8.9400   -8.9200   -8.9000   -8.8800
+
+  Columns 8 through 14
+
+   -8.8600   -8.8400   -8.8200   -8.8000   -8.7800   -8.7600   -8.7400
+
+  Columns 15 through 21
+
+   -8.7200   -8.7000   -8.6800   -8.6600   -8.6400   -8.6200   -8.6000
+
+  Columns 22 through 28
+
+   -8.5800   -8.5600   -8.5400   -8.5200   -8.5000   -8.4800   -8.4600
+
+  Columns 29 through 35
+
+   -8.4400   -8.4200   -8.4000   -8.3800   -8.3600   -8.3400   -8.3200
+
+  Columns 36 through 42
+
+   -8.3000   -8.2800   -8.2600   -8.2400   -8.2200   -8.2000   -8.1800
+
+  Columns 43 through 49
+
+   -8.1600   -8.1400   -8.1200   -8.1000   -8.0800   -8.0600   -8.0400
+
+  Columns 50 through 56
+
+   -8.0200   -8.0000   -7.9800   -7.9600   -7.9400   -7.9200   -7.9000
+
+  Columns 57 through 63
+
+   -7.8800   -7.8600   -7.8400   -7.8200   -7.8000   -7.7800   -7.7600
+
+  Columns 64 through 70
+
+   -7.7400   -7.7200   -7.7000   -7.6800   -7.6600   -7.6400   -7.6200
+
+  Columns 71 through 77
+
+   -7.6000   -7.5800   -7.5600   -7.5400   -7.5200   -7.5000   -7.4800
+
+  Columns 78 through 84
+
+   -7.4600   -7.4400   -7.4200   -7.4000   -7.3800   -7.3600   -7.3400
+
+  Columns 85 through 91
+
+   -7.3200   -7.3000   -7.2800   -7.2600   -7.2400   -7.2200   -7.2000
+
+  Columns 92 through 98
+
+   -7.1800   -7.1600   -7.1400   -7.1200   -7.1000   -7.0800   -7.0600
+
+  Columns 99 through 105
+
+   -7.0400   -7.0200   -7.0000   -6.9800   -6.9600   -6.9400   -6.9200
+
+  Columns 106 through 112
+
+   -6.9000   -6.8800   -6.8600   -6.8400   -6.8200   -6.8000   -6.7800
+
+  Columns 113 through 119
+
+   -6.7600   -6.7400   -6.7200   -6.7000   -6.6800   -6.6600   -6.6400
+
+  Columns 120 through 126
+
+   -6.6200   -6.6000   -6.5800   -6.5600   -6.5400   -6.5200   -6.5000
+
+  Columns 127 through 133
+
+   -6.4800   -6.4600   -6.4400   -6.4200   -6.4000   -6.3800   -6.3600
+
+  Columns 134 through 140
+
+   -6.3400   -6.3200   -6.3000   -6.2800   -6.2600   -6.2400   -6.2200
+
+  Columns 141 through 147
+
+   -6.2000   -6.1800   -6.1600   -6.1400   -6.1200   -6.1000   -6.0800
+
+  Columns 148 through 154
+
+   -6.0600   -6.0400   -6.0200   -6.0000   -5.9800   -5.9600   -5.9400
+
+  Columns 155 through 161
+
+   -5.9200   -5.9000   -5.8800   -5.8600   -5.8400   -5.8200   -5.8000
+
+  Columns 162 through 168
+
+   -5.7800   -5.7600   -5.7400   -5.7200   -5.7000   -5.6800   -5.6600
+
+  Columns 169 through 175
+
+   -5.6400   -5.6200   -5.6000   -5.5800   -5.5600   -5.5400   -5.5200
+
+  Columns 176 through 182
+
+   -5.5000   -5.4800   -5.4600   -5.4400   -5.4200   -5.4000   -5.3800
+
+  Columns 183 through 189
+
+   -5.3600   -5.3400   -5.3200   -5.3000   -5.2800   -5.2600   -5.2400
+
+  Columns 190 through 196
+
+   -5.2200   -5.2000   -5.1800   -5.1600   -5.1400   -5.1200   -5.1000
+
+  Columns 197 through 203
+
+   -5.0800   -5.0600   -5.0400   -5.0200   -5.0000   -4.9800   -4.9600
+
+  Columns 204 through 210
+
+   -4.9400   -4.9200   -4.9000   -4.8800   -4.8600   -4.8400   -4.8200
+
+  Columns 211 through 217
+
+   -4.8000   -4.7800   -4.7600   -4.7400   -4.7200   -4.7000   -4.6800
+
+  Columns 218 through 224
+
+   -4.6600   -4.6400   -4.6200   -4.6000   -4.5800   -4.5600   -4.5400
+
+  Columns 225 through 231
+
+   -4.5200   -4.5000   -4.4800   -4.4600   -4.4400   -4.4200   -4.4000
+
+  Columns 232 through 238
+
+   -4.3800   -4.3600   -4.3400   -4.3200   -4.3000   -4.2800   -4.2600
+
+  Columns 239 through 245
+
+   -4.2400   -4.2200   -4.2000   -4.1800   -4.1600   -4.1400   -4.1200
+
+  Columns 246 through 252
+
+   -4.1000   -4.0800   -4.0600   -4.0400   -4.0200   -4.0000   -3.9800
+
+  Columns 253 through 259
+
+   -3.9600   -3.9400   -3.9200   -3.9000   -3.8800   -3.8600   -3.8400
+
+  Columns 260 through 266
+
+   -3.8200   -3.8000   -3.7800   -3.7600   -3.7400   -3.7200   -3.7000
+
+  Columns 267 through 273
+
+   -3.6800   -3.6600   -3.6400   -3.6200   -3.6000   -3.5800   -3.5600
+
+  Columns 274 through 280
+
+   -3.5400   -3.5200   -3.5000   -3.4800   -3.4600   -3.4400   -3.4200
+
+  Columns 281 through 287
+
+   -3.4000   -3.3800   -3.3600   -3.3400   -3.3200   -3.3000   -3.2800
+
+  Columns 288 through 294
+
+   -3.2600   -3.2400   -3.2200   -3.2000   -3.1800   -3.1600   -3.1400
+
+  Columns 295 through 301
+
+   -3.1200   -3.1000   -3.0800   -3.0600   -3.0400   -3.0200   -3.0000
+
+  Columns 302 through 308
+
+   -2.9800   -2.9600   -2.9400   -2.9200   -2.9000   -2.8800   -2.8600
+
+  Columns 309 through 315
+
+   -2.8400   -2.8200   -2.8000   -2.7800   -2.7600   -2.7400   -2.7200
+
+  Columns 316 through 322
+
+   -2.7000   -2.6800   -2.6600   -2.6400   -2.6200   -2.6000   -2.5800
+
+  Columns 323 through 329
+
+   -2.5600   -2.5400   -2.5200   -2.5000   -2.4800   -2.4600   -2.4400
+
+  Columns 330 through 336
+
+   -2.4200   -2.4000   -2.3800   -2.3600   -2.3400   -2.3200   -2.3000
+
+  Columns 337 through 343
+
+   -2.2800   -2.2600   -2.2400   -2.2200   -2.2000   -2.1800   -2.1600
+
+  Columns 344 through 350
+
+   -2.1400   -2.1200   -2.1000   -2.0800   -2.0600   -2.0400   -2.0200
+
+  Columns 351 through 357
+
+   -2.0000   -1.9800   -1.9600   -1.9400   -1.9200   -1.9000   -1.8800
+
+  Columns 358 through 364
+
+   -1.8600   -1.8400   -1.8200   -1.8000   -1.7800   -1.7600   -1.7400
+
+  Columns 365 through 371
+
+   -1.7200   -1.7000   -1.6800   -1.6600   -1.6400   -1.6200   -1.6000
+
+  Columns 372 through 378
+
+   -1.5800   -1.5600   -1.5400   -1.5200   -1.5000   -1.4800   -1.4600
+
+  Columns 379 through 385
+
+   -1.4400   -1.4200   -1.4000   -1.3800   -1.3600   -1.3400   -1.3200
+
+  Columns 386 through 392
+
+   -1.3000   -1.2800   -1.2600   -1.2400   -1.2200   -1.2000   -1.1800
+
+  Columns 393 through 399
+
+   -1.1600   -1.1400   -1.1200   -1.1000   -1.0800   -1.0600   -1.0400
+
+  Columns 400 through 406
+
+   -1.0200   -1.0000   -0.9800   -0.9600   -0.9400   -0.9200   -0.9000
+
+  Columns 407 through 413
+
+   -0.8800   -0.8600   -0.8400   -0.8200   -0.8000   -0.7800   -0.7600
+
+  Columns 414 through 420
+
+   -0.7400   -0.7200   -0.7000   -0.6800   -0.6600   -0.6400   -0.6200
+
+  Columns 421 through 427
+
+   -0.6000   -0.5800   -0.5600   -0.5400   -0.5200   -0.5000   -0.4800
+
+  Columns 428 through 434
+
+   -0.4600   -0.4400   -0.4200   -0.4000   -0.3800   -0.3600   -0.3400
+
+  Columns 435 through 441
+
+   -0.3200   -0.3000   -0.2800   -0.2600   -0.2400   -0.2200   -0.2000
+
+  Columns 442 through 448
+
+   -0.1800   -0.1600   -0.1400   -0.1200   -0.1000   -0.0800   -0.0600
+
+  Columns 449 through 455
+
+   -0.0400   -0.0200         0    0.0200    0.0400    0.0600    0.0800
+
+  Columns 456 through 462
+
+    0.1000    0.1200    0.1400    0.1600    0.1800    0.2000    0.2200
+
+  Columns 463 through 469
+
+    0.2400    0.2600    0.2800    0.3000    0.3200    0.3400    0.3600
+
+  Columns 470 through 476
+
+    0.3800    0.4000    0.4200    0.4400    0.4600    0.4800    0.5000
+
+  Columns 477 through 483
+
+    0.5200    0.5400    0.5600    0.5800    0.6000    0.6200    0.6400
+
+  Columns 484 through 490
+
+    0.6600    0.6800    0.7000    0.7200    0.7400    0.7600    0.7800
+
+  Columns 491 through 497
+
+    0.8000    0.8200    0.8400    0.8600    0.8800    0.9000    0.9200
+
+  Columns 498 through 504
+
+    0.9400    0.9600    0.9800    1.0000    1.0200    1.0400    1.0600
+
+  Columns 505 through 511
+
+    1.0800    1.1000    1.1200    1.1400    1.1600    1.1800    1.2000
+
+  Columns 512 through 518
+
+    1.2200    1.2400    1.2600    1.2800    1.3000    1.3200    1.3400
+
+  Columns 519 through 525
+
+    1.3600    1.3800    1.4000    1.4200    1.4400    1.4600    1.4800
+
+  Columns 526 through 532
+
+    1.5000    1.5200    1.5400    1.5600    1.5800    1.6000    1.6200
+
+  Columns 533 through 539
+
+    1.6400    1.6600    1.6800    1.7000    1.7200    1.7400    1.7600
+
+  Columns 540 through 546
+
+    1.7800    1.8000    1.8200    1.8400    1.8600    1.8800    1.9000
+
+  Columns 547 through 553
+
+    1.9200    1.9400    1.9600    1.9800    2.0000    2.0200    2.0400
+
+  Columns 554 through 560
+
+    2.0600    2.0800    2.1000    2.1200    2.1400    2.1600    2.1800
+
+  Columns 561 through 567
+
+    2.2000    2.2200    2.2400    2.2600    2.2800    2.3000    2.3200
+
+  Columns 568 through 574
+
+    2.3400    2.3600    2.3800    2.4000    2.4200    2.4400    2.4600
+
+  Columns 575 through 581
+
+    2.4800    2.5000    2.5200    2.5400    2.5600    2.5800    2.6000
+
+  Columns 582 through 588
+
+    2.6200    2.6400    2.6600    2.6800    2.7000    2.7200    2.7400
+
+  Columns 589 through 595
+
+    2.7600    2.7800    2.8000    2.8200    2.8400    2.8600    2.8800
+
+  Columns 596 through 602
+
+    2.9000    2.9200    2.9400    2.9600    2.9800    3.0000    3.0200
+
+  Columns 603 through 609
+
+    3.0400    3.0600    3.0800    3.1000    3.1200    3.1400    3.1600
+
+  Columns 610 through 616
+
+    3.1800    3.2000    3.2200    3.2400    3.2600    3.2800    3.3000
+
+  Columns 617 through 623
+
+    3.3200    3.3400    3.3600    3.3800    3.4000    3.4200    3.4400
+
+  Columns 624 through 630
+
+    3.4600    3.4800    3.5000    3.5200    3.5400    3.5600    3.5800
+
+  Columns 631 through 637
+
+    3.6000    3.6200    3.6400    3.6600    3.6800    3.7000    3.7200
+
+  Columns 638 through 644
+
+    3.7400    3.7600    3.7800    3.8000    3.8200    3.8400    3.8600
+
+  Columns 645 through 651
+
+    3.8800    3.9000    3.9200    3.9400    3.9600    3.9800    4.0000
+
+  Columns 652 through 658
+
+    4.0200    4.0400    4.0600    4.0800    4.1000    4.1200    4.1400
+
+  Columns 659 through 665
+
+    4.1600    4.1800    4.2000    4.2200    4.2400    4.2600    4.2800
+
+  Columns 666 through 672
+
+    4.3000    4.3200    4.3400    4.3600    4.3800    4.4000    4.4200
+
+  Columns 673 through 679
+
+    4.4400    4.4600    4.4800    4.5000    4.5200    4.5400    4.5600
+
+  Columns 680 through 686
+
+    4.5800    4.6000    4.6200    4.6400    4.6600    4.6800    4.7000
+
+  Columns 687 through 693
+
+    4.7200    4.7400    4.7600    4.7800    4.8000    4.8200    4.8400
+
+  Columns 694 through 700
+
+    4.8600    4.8800    4.9000    4.9200    4.9400    4.9600    4.9800
+
+  Columns 701 through 707
+
+    5.0000    5.0200    5.0400    5.0600    5.0800    5.1000    5.1200
+
+  Columns 708 through 714
+
+    5.1400    5.1600    5.1800    5.2000    5.2200    5.2400    5.2600
+
+  Columns 715 through 721
+
+    5.2800    5.3000    5.3200    5.3400    5.3600    5.3800    5.4000
+
+  Columns 722 through 728
+
+    5.4200    5.4400    5.4600    5.4800    5.5000    5.5200    5.5400
+
+  Columns 729 through 735
+
+    5.5600    5.5800    5.6000    5.6200    5.6400    5.6600    5.6800
+
+  Columns 736 through 742
+
+    5.7000    5.7200    5.7400    5.7600    5.7800    5.8000    5.8200
+
+  Columns 743 through 749
+
+    5.8400    5.8600    5.8800    5.9000    5.9200    5.9400    5.9600
+
+  Columns 750 through 756
+
+    5.9800    6.0000    6.0200    6.0400    6.0600    6.0800    6.1000
+
+  Columns 757 through 763
+
+    6.1200    6.1400    6.1600    6.1800    6.2000    6.2200    6.2400
+
+  Columns 764 through 770
+
+    6.2600    6.2800    6.3000    6.3200    6.3400    6.3600    6.3800
+
+  Columns 771 through 777
+
+    6.4000    6.4200    6.4400    6.4600    6.4800    6.5000    6.5200
+
+  Columns 778 through 784
+
+    6.5400    6.5600    6.5800    6.6000    6.6200    6.6400    6.6600
+
+  Columns 785 through 791
+
+    6.6800    6.7000    6.7200    6.7400    6.7600    6.7800    6.8000
+
+  Columns 792 through 798
+
+    6.8200    6.8400    6.8600    6.8800    6.9000    6.9200    6.9400
+
+  Columns 799 through 805
+
+    6.9600    6.9800    7.0000    7.0200    7.0400    7.0600    7.0800
+
+  Columns 806 through 812
+
+    7.1000    7.1200    7.1400    7.1600    7.1800    7.2000    7.2200
+
+  Columns 813 through 819
+
+    7.2400    7.2600    7.2800    7.3000    7.3200    7.3400    7.3600
+
+  Columns 820 through 826
+
+    7.3800    7.4000    7.4200    7.4400    7.4600    7.4800    7.5000
+
+  Columns 827 through 833
+
+    7.5200    7.5400    7.5600    7.5800    7.6000    7.6200    7.6400
+
+  Columns 834 through 840
+
+    7.6600    7.6800    7.7000    7.7200    7.7400    7.7600    7.7800
+
+  Columns 841 through 847
+
+    7.8000    7.8200    7.8400    7.8600    7.8800    7.9000    7.9200
+
+  Columns 848 through 854
+
+    7.9400    7.9600    7.9800    8.0000    8.0200    8.0400    8.0600
+
+  Columns 855 through 861
+
+    8.0800    8.1000    8.1200    8.1400    8.1600    8.1800    8.2000
+
+  Columns 862 through 868
+
+    8.2200    8.2400    8.2600    8.2800    8.3000    8.3200    8.3400
+
+  Columns 869 through 875
+
+    8.3600    8.3800    8.4000    8.4200    8.4400    8.4600    8.4800
+
+  Columns 876 through 882
+
+    8.5000    8.5200    8.5400    8.5600    8.5800    8.6000    8.6200
+
+  Columns 883 through 889
+
+    8.6400    8.6600    8.6800    8.7000    8.7200    8.7400    8.7600
+
+  Columns 890 through 896
+
+    8.7800    8.8000    8.8200    8.8400    8.8600    8.8800    8.9000
+
+  Columns 897 through 903
+
+    8.9200    8.9400    8.9600    8.9800    9.0000    9.0200    9.0400
+
+  Columns 904 through 910
+
+    9.0600    9.0800    9.1000    9.1200    9.1400    9.1600    9.1800
+
+  Columns 911 through 917
+
+    9.2000    9.2200    9.2400    9.2600    9.2800    9.3000    9.3200
+
+  Columns 918 through 924
+
+    9.3400    9.3600    9.3800    9.4000    9.4200    9.4400    9.4600
+
+  Columns 925 through 931
+
+    9.4800    9.5000    9.5200    9.5400    9.5600    9.5800    9.6000
+
+  Columns 932 through 938
+
+    9.6200    9.6400    9.6600    9.6800    9.7000    9.7200    9.7400
+
+  Columns 939 through 945
+
+    9.7600    9.7800    9.8000    9.8200    9.8400    9.8600    9.8800
+
+  Columns 946 through 952
+
+    9.9000    9.9200    9.9400    9.9600    9.9800   10.0000   10.0200
+
+  Columns 953 through 959
+
+   10.0400   10.0600   10.0800   10.1000   10.1200   10.1400   10.1600
+
+  Columns 960 through 966
+
+   10.1800   10.2000   10.2200   10.2400   10.2600   10.2800   10.3000
+
+  Columns 967 through 973
+
+   10.3200   10.3400   10.3600   10.3800   10.4000   10.4200   10.4400
+
+  Columns 974 through 980
+
+   10.4600   10.4800   10.5000   10.5200   10.5400   10.5600   10.5800
+
+  Columns 981 through 987
+
+   10.6000   10.6200   10.6400   10.6600   10.6800   10.7000   10.7200
+
+  Columns 988 through 994
+
+   10.7400   10.7600   10.7800   10.8000   10.8200   10.8400   10.8600
+
+  Columns 995 through 1001
+
+   10.8800   10.9000   10.9200   10.9400   10.9600   10.9800   11.0000
+
+</pre><img vspace="5" hspace="5" src="lab4_me_01.png" alt=""> <img vspace="5" hspace="5" src="lab4_me_02.png" alt=""> <img vspace="5" hspace="5" src="lab4_me_03.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+clc;
+clear;
+
+%problem 2; sys_rep
+
+G = 2;
+b = 0.5;
+
+x = -2:1:10;
+x1(1:length(x)) = 1.2;
+x2(1:length(x)) = -1.2;
+y = G*x+b;
+
+y1 = G*x1+b;
+y2 = G*x2+b;
+
+%{
+figure;
+title('First plot');
+xlabel('t (in seconds)');
+ylabel('y(t)');
+plot(x,y);
+grid on
+%}
+
+figure;
+plot(y1);
+title('x1(t)');
+xlabel('t (in seconds)');
+ylabel('y1(t)');
+ylim([-5 5])
+grid off
+
+figure;
+plot(y2);
+title('x2(t)');
+xlabel('t (in seconds)');
+ylabel('y2(t)');
+ylim([-5 5])
+grid off
+
+a1 = 1;
+a2 = 1;
+
+%problem 3
+x3 = a1*x1 + a2*x2;
+
+figure;
+plot(x3,'REPLACE_WITH_DASH_DASH');
+title('x3(t)');
+xlabel('t (in seconds)');
+ylabel('y(t)');
+ylim([-5 5])
+grid off
+
+%problem 6
+t = -1:0.01:3;
+
+sinusoid_x1 = 2*cos(2*pi*t - (pi/4));
+sinusoid_x2 = 1.5*cos(3*pi*t - (pi/4));
+
+sinusoid_y1 = G*sinusoid_x1+b;
+sinusoid_y2 = G*sinusoid_x2+b;
+
+figure;
+subplot(2,1,1)
+plot(t,sinusoid_x1)
+title('x1(t) = 2*cos(2*pi*t-(pi/4))');
+ylabel('y1(t)');
+
+subplot(2,1,2)
+plot(t,sinusoid_x2)
+title('x2(t) = 1.5*cos(3*pi*t-(pi/4))');
+ylabel('y2(t)');
+
+%problem 7 (how many subplots 2, or 3?
+a1_2 = 3;
+a2_2 = 4;
+
+x3_2 = a1_2*sinusoid_x1  + a2_2*sinusoid_x2;
+
+y3_2 = a1*sinusoid_y1  + a2*sinusoid_y2;
+
+figure;
+
+subplot(3,1,1)
+plot(x3_2);
+title('yn(t) = 3x1(t) +4x2(t)');
+xlabel('t (in seconds)');
+ylabel('x3(t)');
+ylim([-15 15])
+
+subplot(3,1,2)
+plot(y3_2);
+title('yn(t) = 3y1(t) +4y2(t)');
+xlabel('t (in seconds)');
+ylabel('y3(t)');
+ylim([-15 15])
+grid off
+
+%problem 9
+%{
+t = -7:0.01:7;
+x_unit = heaviside(t+1) - heaviside(t-2);
+y_t = x_unit(2*t);
+
+figure;
+
+plot(t,x_unit)
+ylim([-5 5])
+%}
+
+%Part 9
+t=-7:.01:7;
+x=heaviside(t+1)- heaviside(t-2);
+y=(heaviside(2*t+1)- heaviside(2*t-2));
+figure;
+subplot (2,1,1), plot(t,x), title('x(t)'), xlabel('t'), ylabel('x(t)'), axis([-2 3 0 2]);
+subplot(2,1,2), plot(t,y), title('y(t)'), xlabel('t'), ylabel('x(2*t)'),axis([-2 3 0 2]);
+
+%part 10
+xd=heaviside(t-2+1)- heaviside(t-2-2);
+yd=heaviside(2*t-2+1)- heaviside(2*t-2-2);
+figure;
+subplot (3,1,1), plot(t,xd), title('xd'), xlabel('t'), ylabel('x(t-2)'), axis([-1 4.5 0 2]);
+subplot(3,1,2), plot(t,yd), title('yd'), xlabel('t'), ylabel('x(2t-2)'),axis([-1 4.5 0 2]);
+
+%Part 11
+y_del=(heaviside(t-2+1)- heaviside(t-2-2));
+figure;
+subplot (3,1,3), plot(t,xd), title('Ydel'), xlabel('t'), ylabel('Y(t-2)'), axis([-1 4.5 0 2]);
+close all
+
+%part 12
+t=-4:.01:6;
+for i=1:length(t)
+if  t(i)<=-2
+X(i)=0;
+
+elseif  t(i)<=0
+  
+X(i)=1.5*t(i)+3; 
+
+elseif  t(i)<=4
+X(i)=3-.75*t(i);
+
+else 
+X(i)=0;
+ 
+end
+
+end
+figure;
+plot(t,X)
+title ('piecewise')
+xlabel('t')
+ylabel('x(t)')
+
+
+% Part 13
+t=-4:.01:6;
+T=2.*t
+for i=1:length(T)
+if  T(i)<=-2
+Y(i)=0;
+
+elseif  T(i)<=0
+ 
+Y(i)=(1.5*T(i)+3); 
+
+elseif  T(i)<=4
+Y(i)=3-.75*T(i);
+
+else 
+Y(i)=0;
+
+end
+ 
+end
+hold on
+figure;
+plot(t,Y)
+title('compressed piecewise')
+xlabel('t')
+ylabel('x(2t)')
+
+
+%problem 14
+t_dec=t-1;
+for i=1:length(t)
+if  t_dec(i)<=-2
+Xd(i)=0;
+
+elseif  t_dec(i)<=0
+ 
+Xd(i)=1.5*t_dec(i)+3; 
+
+elseif  t_dec(i)<=4
+Xd(i)=3-.75*t_dec(i);
+
+else 
+Xd(i)=0;
+
+end
+
+end
+
+plot(t,Xd)
+title ('Xd')
+xlabel('t')
+ylabel('x(t-1)')
+
+
+
+%Prob 14b
+T_compressed=(2*t_dec)
+for i=1:length(t)
+if  T_compressed(i)<=-2
+Yd(i)=0;
+
+elseif  T_compressed(i)<=0
+ 
+Yd(i)=1.5*T_compressed(i)+3; 
+
+elseif  T_compressed(i)<=4
+Yd(i)=3-.75*T_compressed(i);
+
+else 
+Yd(i)=0;
+
+end
+
+end
+
+plot(t,Yd)
+title ('Xd compressed')
+xlabel('t')
+ylabel('x(2*(t-1))')
+
+
+%Prob 14c 
+T_dec=T-1
+for i=1:length(t)
+if  T_dec(i)<=-2
+Ydc(i)=0;
+
+elseif  T_dec(i)<=0
+ 
+Ydc(i)=1.5*T_dec(i)+3; 
+
+elseif  T_dec(i)<=4
+Ydc(i)=3-.75*T_dec(i);
+
+else 
+Ydc(i)=0;
+
+end
+
+end
+
+plot(t,Ydc)
+title ('ydc compressed and delayed once again')
+xlabel('t')
+ylabel('x(2*(t-1))')
+
+
+%Problem 15
+figure;
+subplot (3,1,1), plot(t,Xd),title ('Xd') ,xlabel('t'), ylabel('x(t-1)'),grid on;
+subplot (3,1,2), plot(t,Yd)
+title ('Yd')
+xlabel('t')
+ylabel('x(2*(t-1))')
+grid on;
+subplot(3,1,3), plot(t,Ydc)
+title ('Ydc')
+xlabel('t')
+ylabel('x(2*(t-1)-1)');
+grid on 
+
+
+function [y]=sys_resp(x)
+y=2*x+.5;
+end
+
+
+
+
+##### SOURCE END #####
+--></body></html>
