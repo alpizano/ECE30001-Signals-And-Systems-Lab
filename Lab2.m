@@ -15,9 +15,8 @@ title('Even & odd components of signals')
 
 
 %part 2
-s2 = -s1;
 hold on
-figure;
+s2 = -s1;
 plot(t,s2,'r')
 title('Time-reversed s1')
 
