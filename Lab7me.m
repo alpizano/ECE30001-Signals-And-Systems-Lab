@@ -9,7 +9,7 @@ ylabel('x(t)')
 grid on
 
 %PART2
-T = 1/60 % funamental period
+T = 1/120 % funamental period
 w0 = 2*pi/T % omega, T is 1/120
 w = 240*pi; % other w(omega) value (should be same as 2pi/T)
 dt =(1/10000); %sampling time
@@ -97,9 +97,10 @@ fprintf('Total mean squared for 100 harmonics: %f \n', error100)
 A = 10;
 a = 0.003; %3ms
 T = 0.008; %8 ms
-t_rect = -0.008:0.00002:0.008
-t_vect = -0.011:0.00002:0.011
+t_rect = -0.008:0.00002:0.008;
+t_vect = -0.011:0.00002:0.011;
 
+%{
 xt = A*rectpuls(t_rect,0.006);
 
 %rectpulse method
@@ -107,20 +108,52 @@ figure;
 plot(t_rect,xt);
 ylim([0 50])
 xlabel('t in milliseconds')
+%}
 
-% using 3 unitsteps
+%{  
 rect3 = A*heaviside(t_vect+0.011) - A*heaviside(t_vect+0.005) + A*heaviside(t_vect+0.003) - A*heaviside(t_vect-0.003) + A*heaviside(t_vect-0.005) - A*heaviside(t_vect-0.011);
 plot(t_vect,rect3)
 ylim([0 50])
 xlabel('t in milliseconds')
 title('periodic rectangular wave')
 ylabel('xp(t)')
+%}
 
-
-
-%{
 tm1 =find( t_rect >= -8e-3 & t_rect <= -5e-3);
 x (tm1) = A;
+
+tm1_0 = find( t_rect >= -5e-3 & t_rect <= -3e-3);
+x(tm1_0) = 0;
+
+tm2 =find( t_rect >= -3e-3 & t_rect <= 3e-3);
+x(tm2) = A;
+
+tm2_0 = find( t_rect >= -5e-3 & t_rect <= -3e-3);
+x(tm2_0) = 0;
+
+tm3 =find( t_rect >= 5e-3 & t_rect <= 8e-3);
+x(tm3) = A;
+
+tm3_0 = find( t_rect >= 3e-3 & t_rect <= 5e-3);
+x(tm3_0) = 0;
+
+
+tm4_0 = find( t_rect >= 11e-3);
+x(tm4_0) = 0;
+
 figure;
 plot(tm1,x(tm1))
-%}
+ylim([0 50])
+xlabel('t in milliseconds')
+ 
+hold on
+plot(tm1_0, x(tm1_0))
+
+plot(tm2,x(tm2))
+plot(tm2_0, x(tm2_0))
+
+plot(tm3,x(tm3))
+plot(tm3_0, x(tm3_0))
+
+plot(tm4_0, x(tm4_0))
+

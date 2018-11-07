@@ -94,26 +94,51 @@ fprintf('Total mean squared for 50 harmonics: %f \n', error50)
 fprintf('Total mean squared for 100 harmonics: %f \n', error100)
 
 %part5
-
-
 A = 10;
 a = 0.003; %3ms
 T = 0.008; %8 ms
-t_rect = -0.008:0.00002:0.008
-
-xt = A*rectpuls(t_rect,0.006);
-
-figure;
-plot(t_rect,xt);
-ylim([0 20])
-xlabel('t in milliseconds')
-
-rect1 = heaviside(t_rect+0.011) - heaviside(t_rect+0.005);
-
+t_rect = -0.008:0.00002:0.008;
+t_vect = -0.011:0.00002:0.011;
 
 %{
-tm1 =find( t_rect >= -8e-3 & t_rect <= -5e-3);
-x (tm1) = A;
+xt = A*rectpuls(t_rect,0.006);
+
+%rectpulse method
 figure;
-plot(tm1,x(tm1))
+plot(t_rect,xt);
+ylim([0 50])
+xlabel('t in milliseconds')
 %}
+
+%{  
+rect3 = A*heaviside(t_vect+0.011) - A*heaviside(t_vect+0.005) + A*heaviside(t_vect+0.003) - A*heaviside(t_vect-0.003) + A*heaviside(t_vect-0.005) - A*heaviside(t_vect-0.011);
+plot(t_vect,rect3)
+ylim([0 50])
+xlabel('t in milliseconds')
+title('periodic rectangular wave')
+ylabel('xp(t)')
+%}
+
+tm1 =find( t_rect >= -8e-3 & t_rect <= -5e-3);
+x(tm1) = A;
+
+tm1_0 = find( t_rect >= -5e-3 & t_rect <= -3e-3);
+x1_0(tm1_0) = 0;
+
+tm2 =find( t_rect >= -3e-3 & t_rect <= 3e-3);
+x2(tm2) = A;
+
+tm3 =find( t_rect >= 5e-3 & t_rect <= 8e-3);
+x3(tm3) = A;
+
+figure;
+plot(tm1,x1(tm1))
+
+ 
+hold on
+plot(tm1_0, x(tm1_0))
+
+plot(tm2,x2(tm2))
+
+plot(tm3,x3(tm3))
+
