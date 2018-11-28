@@ -4,18 +4,31 @@
 clc;
 clear;
 
-dt = 1/10000;
-t = 0:dt:1/60;
-w = 240*pi; % 2PI/T and T = 1/120 s
+% PART 1
+f0 = 120; % f0 is 120Hz
+T = 1/120;
+w0 = 2*pi/T; % w0 is 240*pi
 A = 1;
-
-xt = 0; % full wave rectified input signal
-yt = 0; %peak to peak
-
 e = exp(1);
 
-
-for k = -2:3
+k = -10:1:10;  
+Ck = -2*A./(pi*(4*k.^2-1));
     
 
-    xt = xt + (-2*A/(pi*(4*k.^2-1))*e.^(j*k*w*t));
+subplot(121);
+stem(k*f0,abs(Ck)); %must be k*f0
+title('|C_k|');
+xlabel('k');
+%xlim([-1200 1200]);
+ylabel('|C_k|');
+
+subplot(122);
+stem(k*f0,angle(Ck)*(180/pi));
+title('\Theta_k');
+xlabel('k');
+%xlim([-1200 1200]);
+ylabel('degrees');
+
+% PART 2
+
+
