@@ -1,3 +1,6 @@
+clc
+clear
+
 load Lab7a
 
 %PART1
@@ -37,6 +40,23 @@ title('3 harmonics of x(t)')
 xlabel('t')
 ylabel('x(t)')
 grid on
+
+test_3_dc = (2/pi)+ (4/pi) ;
+% TESTING SHIT
+
+test_3 = 0;
+for n = 1:1:3
+    %if n~=0
+    test_3 = test_3_dc + test_3 +(((-1)^(n+1))/(4*n^2-1)).*cos(n*w*t);
+    %end
+end
+
+figure(69);
+%test_3 = test_3_dc + (4/pi)*test_3;
+plot(1000*t, test_3)
+title('fucking test')
+grid on
+
 
 % for 10 Harmonics
 for k = -10:10
