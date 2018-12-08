@@ -2,6 +2,7 @@
 a = [2500];
 b = [1 10 2500];
 [r, p, k] = residue(a, b)
+
 figure(1)
 plot(real(p(1)), imag(p(1)),'*')
 hold on
