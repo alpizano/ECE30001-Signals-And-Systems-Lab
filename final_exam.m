@@ -59,11 +59,11 @@ syn_g=0;
 for n=[2]
 syn_g=((1/(n^2-1))*cos(n*w*t))+syn_g;
 end 
-syn_g_2=syn_g_dc-(2/pi)*syn_g;
+syn_g_2=syn_g_dc-(2/pi)*syn_g
 
 response=conv(syn_g_2, 60/(60+j*w));
-mag=real(response)
-ang=angle(response)
+mag=real(response);
+ang=angle(response);
 figure(9)
 plot(t,mag)
 figure(10)
